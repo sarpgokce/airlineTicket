@@ -22,7 +22,7 @@ public class Main extends JFrame {
 			public void run() {
 				try {
 					Main frame = new Main();
-					//jhghjgfgdfdfsad
+					//jhghjgfg
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

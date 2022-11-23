@@ -25,7 +25,7 @@ public class addCustomer extends JInternalFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					//gfgfgfgfddfdfsad
+					//gfgfgfg
 					addCustomer frame = new addCustomer();
 					frame.setVisible(true);
 				} catch (Exception e) {
