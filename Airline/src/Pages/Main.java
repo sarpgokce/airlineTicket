@@ -9,6 +9,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JDesktopPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Main extends JFrame {
 
@@ -36,7 +38,7 @@ public class Main extends JFrame {
 	 */
 	public Main() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 500);
+		setBounds(100, 100, 1032, 702);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -45,6 +47,7 @@ public class Main extends JFrame {
 		menuBar.add(mnNewMenu);
 		
 		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Add Customer");
+		
 		mnNewMenu.add(mntmNewMenuItem_4);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Search Customer");
@@ -74,7 +77,15 @@ public class Main extends JFrame {
 		contentPane.setLayout(null);
 		
 		JDesktopPane desktopPane = new JDesktopPane();
-		desktopPane.setBounds(0, 0, 984, 439);
+		desktopPane.setBounds(0, 0, 1016, 641);
 		contentPane.add(desktopPane);
+		
+		mntmNewMenuItem_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addCustomer cus=new addCustomer();
+				desktopPane.add(cus);
+				cus.setVisible(true);
+			}
+		});
 	}
 }

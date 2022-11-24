@@ -8,15 +8,23 @@ import java.awt.Color;
 import java.awt.Label;
 import javax.swing.JTextField;
 import java.awt.TextArea;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import com.toedter.calendar.JDateChooser;
+import javax.swing.JRadioButton;
+import javax.swing.JButton;
 
 public class addCustomer extends JInternalFrame {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
+	private JTextField textField_4;
 
 	/**
 	 * Launch the application.
@@ -35,11 +43,14 @@ public class addCustomer extends JInternalFrame {
 		});
 	}
 
+	Connection con;
+	PreparedStatement pat;
+	
 	/**
 	 * Create the frame.
 	 */
 	public addCustomer() {
-		setBounds(100, 100, 655, 429);
+		setBounds(100, 100, 875, 515);
 		getContentPane().setLayout(null);
 		
 		Panel panel = new Panel();
@@ -128,6 +139,51 @@ public class addCustomer extends JInternalFrame {
 		lblNewLabel_2.setForeground(new Color(255, 255, 255));
 		lblNewLabel_2.setBounds(26, 139, 46, 14);
 		panel_1.add(lblNewLabel_2);
+		
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setBounds(116, 36, 148, 20);
+		panel_1.add(dateChooser);
+		
+		JRadioButton rdbtnNewRadioButton = new JRadioButton("M");
+		rdbtnNewRadioButton.setBounds(109, 86, 46, 23);
+		panel_1.add(rdbtnNewRadioButton);
+		
+		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("F");
+		rdbtnNewRadioButton_1.setBounds(175, 86, 46, 23);
+		panel_1.add(rdbtnNewRadioButton_1);
+		
+		textField_4 = new JTextField();
+		textField_4.setBounds(109, 136, 155, 20);
+		panel_1.add(textField_4);
+		textField_4.setColumns(10);
+		
+		JLabel lblNewLabel_3 = new JLabel("New label");
+		lblNewLabel_3.setBounds(634, 79, 201, 200);
+		getContentPane().add(lblNewLabel_3);
+		
+		JButton btnNewButton = new JButton("Browse");
+		btnNewButton.setBounds(692, 349, 89, 23);
+		getContentPane().add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Add");
+		btnNewButton_1.setBounds(356, 349, 89, 23);
+		getContentPane().add(btnNewButton_1);
+		
+		JButton btnNewButton_2 = new JButton("Cancel");
+		btnNewButton_2.setBounds(492, 349, 89, 23);
+		getContentPane().add(btnNewButton_2);
 
+	}
+	public void autoID() {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			con=DriverManager.getConnection("jdbc:mysql://localhost/airline","root","");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
