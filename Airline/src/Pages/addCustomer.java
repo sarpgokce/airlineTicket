@@ -11,7 +11,9 @@ import java.awt.TextArea;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -50,6 +52,16 @@ public class addCustomer extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public addCustomer() {
+		
+	
+		initComponents();
+		
+		
+
+	}
+	
+	private void initComponents()
+	{
 		setBounds(100, 100, 875, 515);
 		getContentPane().setLayout(null);
 		
@@ -172,13 +184,25 @@ public class addCustomer extends JInternalFrame {
 		JButton btnNewButton_2 = new JButton("Cancel");
 		btnNewButton_2.setBounds(492, 349, 89, 23);
 		getContentPane().add(btnNewButton_2);
-
+		
+		
+		
+		
 	}
+	
 	public void autoID() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			con=DriverManager.getConnection("jdbc:mysql://localhost/airline","root","");
-			//dd
+			Statement s=con.createStatement();
+			ResultSet rs=s.executeQuery("Select MAX(id) from customer");
+			rs.next();
+			rs.getString("MAX(id)");
+			
+			if(rs.getString("MAX(id)") == null)
+			{
+				//label_6
+			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -187,4 +211,5 @@ public class addCustomer extends JInternalFrame {
 			e.printStackTrace();
 		}
 	}
+	
 }
