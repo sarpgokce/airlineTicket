@@ -35,7 +35,7 @@ public class addCustomer extends JInternalFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					//gfgfgfg
+					
 					addCustomer frame = new addCustomer();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -51,16 +51,17 @@ public class addCustomer extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
-	public addCustomer() {
+public addCustomer() {
 		
-	
+		
 		initComponents();
 		
 		
 
 	}
 	
-	private void initComponents()
+	
+	public void initComponents()
 	{
 		setBounds(100, 100, 875, 515);
 		getContentPane().setLayout(null);
@@ -187,8 +188,10 @@ public class addCustomer extends JInternalFrame {
 		
 		
 		
-		
 	}
+	
+	
+	
 	
 	public void autoID() {
 		try {
@@ -201,7 +204,16 @@ public class addCustomer extends JInternalFrame {
 			
 			if(rs.getString("MAX(id)") == null)
 			{
-				//label_6
+				label_6.setText("CS001");
+			}
+			
+			else
+			{
+				long id= Long.parseLong(rs.getString("MAX(id)").substring(2,rs.getString("MAX(id)").length()));
+				id++;
+				label_6.setText("CS"+String.format("%03d", id));
+				
+				
 			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -211,5 +223,8 @@ public class addCustomer extends JInternalFrame {
 			e.printStackTrace();
 		}
 	}
+	
+	
+
 	
 }
