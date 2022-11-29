@@ -16,6 +16,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.awt.Font;
@@ -178,13 +180,13 @@ private void initComponents() {
 	dateChooser.setBounds(116, 36, 148, 20);
 	panel_1.add(dateChooser);
 	
-	JRadioButton rdbtnNewRadioButton = new JRadioButton("M");
-	rdbtnNewRadioButton.setBounds(109, 86, 46, 23);
-	panel_1.add(rdbtnNewRadioButton);
+	JRadioButton r1 = new JRadioButton("M");
+	r1.setBounds(109, 86, 46, 23);
+	panel_1.add(r1);
 	
-	JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("F");
-	rdbtnNewRadioButton_1.setBounds(175, 86, 46, 23);
-	panel_1.add(rdbtnNewRadioButton_1);
+	JRadioButton r2 = new JRadioButton("F");
+	r2.setBounds(175, 86, 46, 23);
+	panel_1.add(r2);
 	
 	textField_4 = new JTextField();
 	textField_4.setBounds(109, 136, 155, 20);
@@ -225,6 +227,32 @@ private void initComponents() {
 	getContentPane().add(btnNewButton);
 	
 	JButton btnNewButton_1 = new JButton("Add");
+	btnNewButton_1.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			
+			String id=label_6.getText();
+			String fname=textField.getText();
+			String lname=textField_1.getText();
+			String nicno=textField_2.getText();
+			String ppid=textField_3.getText();
+			String adress=textArea.getText();
+			
+			DateFormat da=new SimpleDateFormat("yyyy-MM-dd");
+			String date=da.format(dateChooser.getDate());
+			
+			String gender;
+			
+			if(r1.isSelected()) 
+				gender="male";
+			
+			
+			else
+				gender="female";
+			
+			String contact=textField_4.getText();
+			
+		}
+	});
 	btnNewButton_1.setBounds(356, 349, 89, 23);
 	getContentPane().add(btnNewButton_1);
 	
