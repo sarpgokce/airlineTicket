@@ -16,16 +16,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JRadioButton;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class addCustomer extends JInternalFrame {
@@ -76,7 +84,7 @@ public addCustomer() {
 	
 private void initComponents() {
 	
-	setBounds(100, 100, 875, 515);
+	setBounds(100, 100, 890, 537);
 	getContentPane().setLayout(null);
 	
 	Panel panel = new Panel();
@@ -184,18 +192,33 @@ private void initComponents() {
 	textField_4.setColumns(10);
 	
 	JLabel lblNewLabel_3 = new JLabel("");
-	lblNewLabel_3.setBounds(634, 79, 201, 200);
+	lblNewLabel_3.setBounds(618, 61, 250, 250);
 	getContentPane().add(lblNewLabel_3);
 	
 	JButton btnNewButton = new JButton("Browse");
 	btnNewButton.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			
-			JFileChooser picchooser=new JFileChooser();
-			picchooser.showOpenDialog(null);
-			File pic=new picchooser.getSelectedFile();
-			FileNameExtensionFilter filter=new FileNameExtensionFilter("*.images","png","jpg");
-			picchooser.addChoosableFileFilter(filter);
+			try {
+				
+
+				JFileChooser picchooser=new JFileChooser();
+				picchooser.showOpenDialog(null);
+				File pic=picchooser.getSelectedFile();
+				FileNameExtensionFilter filter=new FileNameExtensionFilter("*.images","png","jpg");
+				picchooser.addChoosableFileFilter(filter);
+				
+				path=pic.getAbsolutePath();
+				BufferedImage img;
+				
+				img=ImageIO.read(picchooser.getSelectedFile());
+				ImageIcon imageIcon=new ImageIcon(new ImageIcon(img).getImage().getScaledInstance(250, 250, Image.SCALE_DEFAULT));
+				lblNewLabel_3.setIcon(imageIcon);
+			} catch(IOException ex) {
+				Logger.getLogger(addCustomer.class.getName()).log(Level.SEVERE,null,ex);
+			}
+			
+			
 		}
 	});
 	btnNewButton.setBounds(692, 349, 89, 23);
