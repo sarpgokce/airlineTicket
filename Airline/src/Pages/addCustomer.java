@@ -34,7 +34,9 @@ import javax.swing.JFileChooser;
 
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 
@@ -216,6 +218,19 @@ private void initComponents() {
 				img=ImageIO.read(picchooser.getSelectedFile());
 				ImageIcon imageIcon=new ImageIcon(new ImageIcon(img).getImage().getScaledInstance(250, 250, Image.SCALE_DEFAULT));
 				lblNewLabel_3.setIcon(imageIcon);
+				
+				File image=new File(path);
+				FileInputStream fis=new FileInputStream(image);
+				ByteArrayOutputStream baos=new ByteArrayOutputStream();
+				byte [] buff=new byte[1024];
+				
+				for(int readNum;(readNum=fis.read(buff))!=-1;)
+				{
+					baos.write(buff,0,readNum);
+				}
+				
+				userimage=baos.toByteArray();
+				
 			} catch(IOException ex) {
 				Logger.getLogger(addCustomer.class.getName()).log(Level.SEVERE,null,ex);
 			}
@@ -250,6 +265,36 @@ private void initComponents() {
 				gender="female";
 			
 			String contact=textField_4.getText();
+			
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				con=DriverManager.getConnection("jdbc:mysql://localhost/airline","root","");
+				
+				pat=con.prepareStatement("insert into customer(id,firstname,lastname,nic,passport,address,dob,gender,contact,photo)values(?,?,?,?,?,?,?,?,?,?)");
+				pat.setString(1, id);
+				pat.setString(2, fname);
+				pat.setString(3, lname);
+				pat.setString(4, nicno);
+				pat.setString(5, ppid);
+				pat.setString(6, adress);
+				pat.setString(7, date);
+				pat.setString(8, gender);
+				pat.setString(9, contact);
+				pat.setBytes(10, userimage);
+
+				
+				
+				
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			
+			
 			
 		}
 	});
