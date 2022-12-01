@@ -40,14 +40,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
+import java.awt.TextField;
+import java.awt.Button;
 
-public class addCustomer extends JInternalFrame {
+public class searchCustomer extends JInternalFrame {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField_4;
-	private Label label_6;
+	private JTextField textField_5;
 
 	/**
 	 * Launch the application.
@@ -57,7 +59,7 @@ public class addCustomer extends JInternalFrame {
 			public void run() {
 				try {
 					
-					addCustomer frame = new addCustomer();
+					searchCustomer frame = new searchCustomer();
 					
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -76,7 +78,7 @@ public class addCustomer extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
-public addCustomer() {
+public searchCustomer() {
 		
 	initComponents();
 	autoID();
@@ -151,12 +153,6 @@ private void initComponents() {
 	label_5.setFont(new Font("Dialog", Font.BOLD, 16));
 	label_5.setBounds(36, 22, 116, 22);
 	getContentPane().add(label_5);
-	
-	label_6 =new Label("New label");
-	label_6.setForeground(new Color(255, 0, 0));
-	label_6.setFont(new Font("Dialog", Font.PLAIN, 16));
-	label_6.setBounds(202, 22, 62, 22);
-	getContentPane().add(label_6);
 	
 	Panel panel_1 = new Panel();
 	panel_1.setBackground(new Color(0, 0, 255));
@@ -233,7 +229,7 @@ private void initComponents() {
 				userimage=baos.toByteArray();
 				
 			} catch(IOException ex) {
-				Logger.getLogger(addCustomer.class.getName()).log(Level.SEVERE,null,ex);
+				Logger.getLogger(searchCustomer.class.getName()).log(Level.SEVERE,null,ex);
 			}
 			
 			
@@ -318,6 +314,48 @@ private void initComponents() {
 	btnNewButton_2.setBounds(492, 349, 89, 23);
 	getContentPane().add(btnNewButton_2);
 	
+	TextField textField_5 = new TextField();
+	textField_5.setBounds(170, 22, 199, 22);
+	getContentPane().add(textField_5);
+	
+	Button button = new Button("Find");
+	button.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			
+			String id=textField_5.getText();
+			
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				con=DriverManager.getConnection("jdbc:mysql://localhost/airline","root","");
+				
+				pat=con.prepareStatement("select * from customer where id = ?");
+				pat.setString(1, id);
+				ResultSet rs=pat.executeQuery();
+				
+				if(rs.next() == false)
+					JOptionPane.showMessageDialog(this, "record not found");
+				
+				else
+				{
+					String fname=rs.getString("firstname");
+					
+					
+				}
+				
+				
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+		}
+	});
+	button.setBounds(395, 22, 70, 22);
+	getContentPane().add(button);
+	
 
 }
 
@@ -351,6 +389,5 @@ public void autoID() {
 		e.printStackTrace();
 	}
 }
-	
 }
 

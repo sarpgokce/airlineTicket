@@ -82,6 +82,7 @@ public class Main extends JFrame {
 		mntmNewMenuItem_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				addCustomer cus=new addCustomer();
+				
 				desktopPane.add(cus);
 				cus.setVisible(true);
 			}
