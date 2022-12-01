@@ -24,6 +24,7 @@ import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JRadioButton;
@@ -151,7 +152,7 @@ private void initComponents() {
 	label_5.setBounds(36, 22, 116, 22);
 	getContentPane().add(label_5);
 	
-	label_6 = new Label("New label");
+	label_6 =new Label("New label");
 	label_6.setForeground(new Color(255, 0, 0));
 	label_6.setFont(new Font("Dialog", Font.PLAIN, 16));
 	label_6.setBounds(202, 22, 62, 22);
@@ -281,6 +282,10 @@ private void initComponents() {
 				pat.setString(8, gender);
 				pat.setString(9, contact);
 				pat.setBytes(10, userimage);
+				
+				pat.executeUpdate();
+				
+				JOptionPane.showMessageDialog(null,"Registration Created");
 
 				
 				
@@ -302,6 +307,12 @@ private void initComponents() {
 	getContentPane().add(btnNewButton_1);
 	
 	JButton btnNewButton_2 = new JButton("Cancel");
+	btnNewButton_2.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			
+			//this.hide();
+		}
+	});
 	btnNewButton_2.setBounds(492, 349, 89, 23);
 	getContentPane().add(btnNewButton_2);
 	
