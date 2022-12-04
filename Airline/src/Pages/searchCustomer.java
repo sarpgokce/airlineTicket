@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.TextArea;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,7 +18,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.awt.Font;
@@ -50,6 +53,7 @@ public class searchCustomer extends JInternalFrame {
 	private JTextField textField_3;
 	private JTextField textField_4;
 	private JTextField textField_5;
+	private Label label_6;
 
 	/**
 	 * Launch the application.
@@ -242,7 +246,7 @@ private void initComponents() {
 	btnNewButton_1.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			
-			String id=label_6.getText();
+			//String id=label_6.getText();
 			String fname=textField.getText();
 			String lname=textField_1.getText();
 			String nicno=textField_2.getText();
@@ -268,7 +272,7 @@ private void initComponents() {
 				con=DriverManager.getConnection("jdbc:mysql://localhost/airline","root","");
 				
 				pat=con.prepareStatement("insert into customer(id,firstname,lastname,nic,passport,address,dob,gender,contact,photo)values(?,?,?,?,?,?,?,?,?,?)");
-				pat.setString(1, id);
+				//pat.setString(1, id);
 				pat.setString(2, fname);
 				pat.setString(3, lname);
 				pat.setString(4, nicno);
@@ -333,11 +337,52 @@ private void initComponents() {
 				ResultSet rs=pat.executeQuery();
 				
 				if(rs.next() == false)
-					JOptionPane.showMessageDialog(this, "record not found");
+					JOptionPane.showMessageDialog(button, "record not found");
 				
 				else
 				{
 					String fname=rs.getString("firstname");
+					String lname=rs.getString("lastname");
+					String nic=rs.getString("nic");
+					String passport=rs.getString("passport");
+					String address=rs.getString("address");
+					String dob=rs.getString("dob");
+					Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(dob);
+					String gender=rs.getString("gender");
+					
+					Blob blob=rs.getBlob("photo");
+					
+					byte[] _imagebytes=blob.getBytes(1, (int)blob.length());
+					ImageIcon image=new ImageIcon(_imagebytes);
+					Image im=image.getImage();
+					Image myImg=im.getScaledInstance(lblNewLabel_3.getWidth(), lblNewLabel_3.getHeight(), Image.SCALE_SMOOTH);
+					ImageIcon newImage=new ImageIcon(myImg);
+					
+					if(gender.equals("female")) {
+						r1.setSelected(false);
+						r2.setSelected(true);
+					}
+					else
+					{
+						r1.setSelected(true);
+						r2.setSelected(false);
+					}
+					
+						
+						
+					String contact=rs.getString("contact");
+					
+					textField.setText(fname.trim());
+					textField_1.setText(lname.trim());
+					textField_2.setText(nic.trim());
+					textField_3.setText(passport.trim());
+					textArea.setText(address.trim());
+					textField_4.setText(contact.trim());
+					
+					dateChooser.setDate(date1);
+					
+					lblNewLabel_3.setIcon(newImage);
+					
 					
 					
 				}
@@ -347,6 +392,9 @@ private void initComponents() {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ParseException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
