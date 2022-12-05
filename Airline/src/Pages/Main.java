@@ -49,8 +49,8 @@ public class Main extends JFrame {
 		
 		mnNewMenu.add(mntmNewMenuItem_4);
 		
-		JMenuItem mntmNewMenuItem = new JMenuItem("Search Customer");
-		mnNewMenu.add(mntmNewMenuItem);
+		
+		
 		
 		JMenu mnNewMenu_1 = new JMenu("Tickets");
 		menuBar.add(mnNewMenu_1);
@@ -88,6 +88,17 @@ public class Main extends JFrame {
 			}
 		});
 		
+		JMenuItem mntmNewMenuItem = new JMenuItem("Search Customer");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				searchCustomer scus=new searchCustomer();
+				
+				desktopPane.add(scus);
+				scus.setVisible(true);
+			}
+		});
+		mnNewMenu.add(mntmNewMenuItem);
 		
 	}
 	

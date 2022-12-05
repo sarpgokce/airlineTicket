@@ -85,7 +85,7 @@ public class searchCustomer extends JInternalFrame {
 public searchCustomer() {
 		
 	initComponents();
-	autoID();
+	//autoID();
 	
 
 	
@@ -242,11 +242,11 @@ private void initComponents() {
 	btnNewButton.setBounds(692, 349, 89, 23);
 	getContentPane().add(btnNewButton);
 	
-	JButton btnNewButton_1 = new JButton("Add");
+	JButton btnNewButton_1 = new JButton("Update");
 	btnNewButton_1.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			
-			//String id=label_6.getText();
+			String id=textField_5.getText();
 			String fname=textField.getText();
 			String lname=textField_1.getText();
 			String nicno=textField_2.getText();
@@ -271,17 +271,17 @@ private void initComponents() {
 				Class.forName("com.mysql.cj.jdbc.Driver");
 				con=DriverManager.getConnection("jdbc:mysql://localhost/airline","root","");
 				
-				pat=con.prepareStatement("insert into customer(id,firstname,lastname,nic,passport,address,dob,gender,contact,photo)values(?,?,?,?,?,?,?,?,?,?)");
+				pat=con.prepareStatement("update customer set firstname=?,lastname=?,nic=?,passport=?,address=?,dob=?,gender=?,contact=?,photo=? where id=?");
 				//pat.setString(1, id);
-				pat.setString(2, fname);
-				pat.setString(3, lname);
-				pat.setString(4, nicno);
-				pat.setString(5, ppid);
-				pat.setString(6, adress);
-				pat.setString(7, date);
-				pat.setString(8, gender);
-				pat.setString(9, contact);
-				pat.setBytes(10, userimage);
+				pat.setString(1, fname);
+				pat.setString(2, lname);
+				pat.setString(3, nicno);
+				pat.setString(4, ppid);
+				pat.setString(5, adress);
+				pat.setString(6, date);
+				pat.setString(7, gender);
+				pat.setString(8, contact);
+				pat.setBytes(9, userimage);
 				
 				pat.executeUpdate();
 				
