@@ -242,70 +242,7 @@ private void initComponents() {
 	btnNewButton.setBounds(692, 349, 89, 23);
 	getContentPane().add(btnNewButton);
 	
-	JButton btnNewButton_1 = new JButton("Update");
-	btnNewButton_1.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			
-			String id=textField_5.getText();
-			String fname=textField.getText();
-			String lname=textField_1.getText();
-			String nicno=textField_2.getText();
-			String ppid=textField_3.getText();
-			String adress=textArea.getText();
-			
-			DateFormat da=new SimpleDateFormat("yyyy-MM-dd");
-			String date=da.format(dateChooser.getDate());
-			
-			String gender;
-			
-			if(r1.isSelected()) 
-				gender="male";
-			
-			
-			else
-				gender="female";
-			
-			String contact=textField_4.getText();
-			
-			try {
-				Class.forName("com.mysql.cj.jdbc.Driver");
-				con=DriverManager.getConnection("jdbc:mysql://localhost/airline","root","");
-				
-				pat=con.prepareStatement("update customer set firstname=?,lastname=?,nic=?,passport=?,address=?,dob=?,gender=?,contact=?,photo=? where id=?");
-				//pat.setString(1, id);
-				pat.setString(1, fname);
-				pat.setString(2, lname);
-				pat.setString(3, nicno);
-				pat.setString(4, ppid);
-				pat.setString(5, adress);
-				pat.setString(6, date);
-				pat.setString(7, gender);
-				pat.setString(8, contact);
-				pat.setBytes(9, userimage);
-				
-				pat.executeUpdate();
-				
-				JOptionPane.showMessageDialog(null,"Registration Created");
 
-				
-				
-				
-			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			
-			
-			
-			
-		}
-	});
-	btnNewButton_1.setBounds(356, 349, 89, 23);
-	getContentPane().add(btnNewButton_1);
-	
 	JButton btnNewButton_2 = new JButton("Cancel");
 	btnNewButton_2.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
@@ -322,6 +259,9 @@ private void initComponents() {
 	textField_5.setBounds(170, 22, 199, 22);
 	getContentPane().add(textField_5);
 	
+	
+	
+	
 	Button button = new Button("Find");
 	button.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
@@ -335,6 +275,7 @@ private void initComponents() {
 				pat=con.prepareStatement("select * from customer where id = ?");
 				pat.setString(1, id);
 				ResultSet rs=pat.executeQuery();
+				
 				
 				if(rs.next() == false)
 					JOptionPane.showMessageDialog(button, "record not found");
@@ -383,6 +324,7 @@ private void initComponents() {
 					
 					lblNewLabel_3.setIcon(newImage);
 					
+			
 					
 					
 				}
@@ -404,9 +346,74 @@ private void initComponents() {
 	button.setBounds(395, 22, 70, 22);
 	getContentPane().add(button);
 	
+	JButton btnNewButton_1 = new JButton("Update");
+	btnNewButton_1.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			
+			String id=textField_5.getText();
+			String fname=textField.getText();
+			String lname=textField_1.getText();
+			String nicno=textField_2.getText();
+			String ppid=textField_3.getText();
+			String adress=textArea.getText();
+			
+			DateFormat da=new SimpleDateFormat("yyyy-MM-dd");
+			String date=da.format(dateChooser.getDate());
+			
+			String gender;
+			
+			if(r1.isSelected()) 
+				gender="male";
+			
+			
+			else
+				gender="female";
+			
+			String contact=textField_4.getText();
+			
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				con=DriverManager.getConnection("jdbc:mysql://localhost/airline","root","");
+				
+				pat=con.prepareStatement("update customer set firstname=?,lastname=?,nic=?,passport=?,address=?,dob=?,gender=?,contact=?,photo=? where id=?");
+				
+				pat.setString(1, fname);
+				pat.setString(2, lname);
+				pat.setString(3, nicno);
+				pat.setString(4, ppid);
+				pat.setString(5, adress);
+				pat.setString(6, date);
+				pat.setString(7, gender);
+				pat.setString(8, contact);
+				pat.setBytes(9, userimage);
+				pat.setString(10, id);
+				
+				pat.executeUpdate();
+				
+				JOptionPane.showMessageDialog(null,"Registration Updated");
+
+				
+				
+				
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			
+			
+			
+		}
+	});
+	btnNewButton_1.setBounds(356, 349, 89, 23);
+	getContentPane().add(btnNewButton_1);
+	
 
 }
-
+/*
 public void autoID() {
 	try {
 		Class.forName("com.mysql.cj.jdbc.Driver");
@@ -436,6 +443,6 @@ public void autoID() {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-}
+}*/
 }
 
