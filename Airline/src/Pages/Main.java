@@ -62,6 +62,7 @@ public class Main extends JFrame {
 		menuBar.add(mnNewMenu_2);
 		
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Add Flight");
+		
 		mnNewMenu_2.add(mntmNewMenuItem_2);
 		
 		JMenu mnNewMenu_3 = new JMenu("User");
@@ -99,6 +100,16 @@ public class Main extends JFrame {
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem);
+		
+		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addFlight f1=new addFlight();
+				
+				desktopPane.add(f1);
+				f1.setVisible(true);
+				
+			}
+		});
 		
 	}
 	

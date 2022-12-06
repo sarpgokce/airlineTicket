@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import java.awt.Panel;
 import java.awt.Label;
@@ -16,16 +17,19 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 
 public class addFlight extends JInternalFrame {
 
-	/**
-	 * Launch the application.
-	 */
+	
+	private JTextField textField_1;
+	private Label label_1;
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -48,6 +52,14 @@ public class addFlight extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public addFlight() {
+		
+		initComponents();
+		autoID();
+
+	}
+	
+	private void initComponents() {
+		
 		getContentPane().setBackground(new Color(0, 128, 255));
 		setBounds(100, 100, 866, 563);
 		getContentPane().setLayout(null);
@@ -63,10 +75,12 @@ public class addFlight extends JInternalFrame {
 		label.setBounds(36, 35, 48, 22);
 		panel.add(label);
 		
-		Label label_1 = new Label("New label");
+		label_1 = new Label("");
 		label_1.setForeground(new Color(0, 255, 0));
 		label_1.setBounds(123, 35, 62, 22);
 		panel.add(label_1);
+		
+		
 		
 		Label label_2 = new Label("Flight Name");
 		label_2.setForeground(new Color(255, 255, 255));
@@ -141,41 +155,40 @@ public class addFlight extends JInternalFrame {
 		Button button = new Button("Add");		
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String id=label_6.getText();
+				String id=label_1.getText();
 				String fname=textField.getText();
-				String lname=textField_1.getText();
-				String nicno=textField_2.getText();
-				String ppid=textField_3.getText();
-				//String adress=textArea.getText();
+				String source=textField_1.getText();
+				String departure=textField_2.getText();
+				String deptime=textField_3.getText();
+				String arrtime=textField_4.getText();
+				String fchange=textField_5.getText();
+				
 				
 				DateFormat da=new SimpleDateFormat("yyyy-MM-dd");
 				String date=da.format(dateChooser.getDate());
 				
-				String gender;
 				
 				
 				
-				String contact=textField_4.getText();
 				
 				try {
 					Class.forName("com.mysql.cj.jdbc.Driver");
 					con=DriverManager.getConnection("jdbc:mysql://localhost/airline","root","");
 					
-					pat=con.prepareStatement("insert into customer(id,firstname,lastname,nic,passport,address,dob,gender,contact,photo)values(?,?,?,?,?,?,?,?,?,?)");
+					pat=con.prepareStatement("insert into flight(id,flightname,source,departure,date,departuretime,arrivaltime,flightchange)values(?,?,?,?,?,?,?,?)");
 					pat.setString(1, id);
 					pat.setString(2, fname);
-					pat.setString(3, lname);
-					pat.setString(4, nicno);
-					pat.setString(5, ppid);
-					//pat.setString(6, adress);
-					pat.setString(7, date);
-					//pat.setString(8, gender);
-					pat.setString(9, contact);
-					pat.setBytes(10, userimage);
+					pat.setString(3, source);
+					pat.setString(4, departure);
+					pat.setString(5, date);
+					pat.setString(6, deptime);
+					pat.setString(7, arrtime);
+					pat.setString(8, fchange);
+					
 					
 					pat.executeUpdate();
 					
-					JOptionPane.showMessageDialog(null,"Registration Created");
+					JOptionPane.showMessageDialog(null,"Flight Created");
 
 					
 					
@@ -197,6 +210,37 @@ public class addFlight extends JInternalFrame {
 		Button button_1 = new Button("Cancel");
 		button_1.setBounds(489, 279, 70, 22);
 		panel.add(button_1);
-
+		
+	}
+	
+	public void autoID() {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			con=DriverManager.getConnection("jdbc:mysql://localhost/airline","root","");
+			Statement s=con.createStatement();
+			ResultSet rs=s.executeQuery("Select MAX(id) from flight");
+			rs.next();
+			rs.getString("MAX(id)");
+			
+			if(rs.getString("MAX(id)") == null)
+			{
+				label_1.setText("CS001");
+			}
+			
+			else
+			{
+				long id= Long.parseLong(rs.getString("MAX(id)").substring(2,rs.getString("MAX(id)").length()));
+				id++;
+				label_1.setText("CS"+String.format("%03d", id));
+				
+				
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
