@@ -23,6 +23,8 @@ import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class addFlight extends JInternalFrame {
 
@@ -104,14 +106,6 @@ public class addFlight extends JInternalFrame {
 		textField.setBounds(126, 81, 113, 22);
 		panel.add(textField);
 		
-		TextField textField_1 = new TextField();
-		textField_1.setBounds(126, 133, 117, 22);
-		panel.add(textField_1);
-		
-		TextField textField_2 = new TextField();
-		textField_2.setBounds(126, 185, 113, 22);
-		panel.add(textField_2);
-		
 		Label label_5 = new Label("Date");
 		label_5.setForeground(new Color(255, 255, 255));
 		label_5.setFont(new Font("Dialog", Font.BOLD, 12));
@@ -148,6 +142,17 @@ public class addFlight extends JInternalFrame {
 		label_8.setBounds(329, 239, 89, 22);
 		panel.add(label_8);
 		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"America", "Russia", "China", "North Korea", "Turkey", "France", "England"}));
+		comboBox.setBounds(129, 133, 110, 22);
+		panel.add(comboBox);
+		
+		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"China", "Russia", "America", "Turkey", "England", "North Korea", "France"}));
+		comboBox_1.setBounds(126, 185, 113, 22);
+		panel.add(comboBox_1);
+		
+		
 		TextField textField_5 = new TextField();
 		textField_5.setBounds(455, 239, 130, 22);
 		panel.add(textField_5);
@@ -157,8 +162,8 @@ public class addFlight extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) {
 				String id=label_1.getText();
 				String fname=textField.getText();
-				String source=textField_1.getText();
-				String departure=textField_2.getText();
+				String source=comboBox.getSelectedItem().toString();
+				String departure=comboBox_1.getSelectedItem().toString();
 				String deptime=textField_3.getText();
 				String arrtime=textField_4.getText();
 				String fchange=textField_5.getText();
@@ -211,6 +216,7 @@ public class addFlight extends JInternalFrame {
 		button_1.setBounds(489, 279, 70, 22);
 		panel.add(button_1);
 		
+	
 	}
 	
 	public void autoID() {
