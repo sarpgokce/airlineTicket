@@ -224,14 +224,14 @@ public class addFlight extends JInternalFrame {
 			
 			if(rs.getString("MAX(id)") == null)
 			{
-				label_1.setText("CS001");
+				label_1.setText("F001");
 			}
 			
 			else
 			{
 				long id= Long.parseLong(rs.getString("MAX(id)").substring(2,rs.getString("MAX(id)").length()));
 				id++;
-				label_1.setText("CS"+String.format("%03d", id));
+				label_1.setText("F"+String.format("%03d", id));
 				
 				
 			}
