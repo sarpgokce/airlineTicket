@@ -148,7 +148,7 @@ public class addFlight extends JInternalFrame {
 		panel.add(comboBox);
 		
 		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"China", "Russia", "America", "Turkey", "England", "North Korea", "France"}));
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Turkey", "China", "Russia", "America", "England", "North Korea", "France"}));
 		comboBox_1.setBounds(126, 185, 113, 22);
 		panel.add(comboBox_1);
 		

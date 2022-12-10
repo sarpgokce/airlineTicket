@@ -13,6 +13,16 @@ import java.awt.Font;
 import java.awt.TextField;
 import javax.swing.JSpinner;
 import java.awt.Button;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.Vector;
+import java.awt.event.ActionEvent;
 
 public class Ticket extends JInternalFrame {
 	private JTable table;
@@ -20,6 +30,10 @@ public class Ticket extends JInternalFrame {
 	/**
 	 * Launch the application.
 	 */
+	
+	Connection con;
+	PreparedStatement pat;
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -46,10 +60,12 @@ public class Ticket extends JInternalFrame {
 		panel.setLayout(null);
 		
 		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"America", "Russia", "China", "North Korea", "Turkey", "France", "England"}));
 		comboBox.setBounds(23, 62, 128, 22);
 		panel.add(comboBox);
 		
 		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Turkey", "America", "Russia", "China", "North Korea", "France", "England"}));
 		comboBox_1.setBounds(161, 62, 137, 22);
 		panel.add(comboBox_1);
 		
@@ -61,12 +77,67 @@ public class Ticket extends JInternalFrame {
 		label_1.setBounds(174, 21, 62, 22);
 		panel.add(label_1);
 		
+		Button button_2 = new Button("Search");
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String source=comboBox.getSelectedItem().toString();
+				String depart=comboBox_1.getSelectedItem().toString();
+				
+				try {
+					Class.forName("com.mysql.cj.jdbc.Driver");
+					con=DriverManager.getConnection("jdbc:mysql://localhost/airline","root","");
+					
+					pat=con.prepareStatement("select * from flight where source=? and depart=? ");
+					pat.setString(1, source);
+					pat.setString(2, depart);
+					ResultSet rs=pat.executeQuery();
+					
+					ResultSetMetaData rsm=rs.getMetaData();
+					
+					int c=rsm.getColumnCount();
+					
+					DefaultTableModel df =(DefaultTableModel)table.getModel();
+					df.setRowCount(0);
+					
+					while(rs.next()) {
+						Vector v2=new Vector();
+						
+						for(int i=1;i<=c;i++)
+						{
+							v2.add(rs.getString("id"));
+							v2.add(rs.getString("flightname"));
+							v2.add(rs.getString("source"));
+							v2.add(rs.getString("departure"));
+							v2.add(rs.getString("date"));
+							v2.add(rs.getString("departuretime"));
+							v2.add(rs.getString("arrivaltime"));
+							v2.add(rs.getString("flightchange"));
+							
+						}
+						
+						df.addRow(v2);
+					}
+					
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		button_2.setBounds(199, 120, 70, 22);
+		panel.add(button_2);
+		
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
-				"Arr Time", "Dep Time", "Departure", "Source", "Flight Name", "Flight No", "Change"
+				"Flight No", "Arr Time", "Dep Time", "Departure", "Date", "Source", "Flight Name", "Change"
 			}
 		));
 		table.setBounds(49, 278, 440, 274);
