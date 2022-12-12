@@ -56,7 +56,7 @@ public class Main extends JFrame {
 		menuBar.add(mnNewMenu_1);
 		
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Book Ticket");
-		mnNewMenu_1.add(mntmNewMenuItem_1);
+		
 		
 		JMenu mnNewMenu_2 = new JMenu("Flight");
 		menuBar.add(mnNewMenu_2);
@@ -86,6 +86,7 @@ public class Main extends JFrame {
 				
 				desktopPane.add(cus);
 				cus.setVisible(true);
+				
 			}
 		});
 		
@@ -110,6 +111,18 @@ public class Main extends JFrame {
 				
 			}
 		});
+		
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				Ticket tcus=new Ticket();
+				
+				desktopPane.add(tcus);
+				tcus.setVisible(true);
+				
+			}
+		});
+		mnNewMenu_1.add(mntmNewMenuItem_1);
 		
 	}
 	
