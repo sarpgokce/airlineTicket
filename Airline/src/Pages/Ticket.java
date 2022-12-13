@@ -3,29 +3,43 @@ package Pages;
 import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
+
 import java.awt.Panel;
 import javax.swing.JComboBox;
 import java.awt.Label;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Color;
+import java.awt.DefaultKeyboardFocusManager;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.TextField;
 import javax.swing.JSpinner;
 import java.awt.Button;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+
 import java.awt.event.ActionListener;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Ticket extends JInternalFrame {
 	private JTable table;
+	private Label label_3;
 
 	/**
 	 * Launch the application.
@@ -47,10 +61,9 @@ public class Ticket extends JInternalFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public Ticket() {
+		
+				
 		setBounds(100, 100, 855, 493);
 		getContentPane().setLayout(null);
 		
@@ -132,16 +145,7 @@ public class Ticket extends JInternalFrame {
 		button_2.setBounds(197, 77, 70, 22);
 		panel.add(button_2);
 		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Flight No", "Arr Time", "Dep Time", "Departure", "Date", "Source", "Flight Name", "Change"
-			}
-		));
-		table.setBounds(49, 208, 440, 242);
-		getContentPane().add(table);
+		
 		
 		Panel panel_1 = new Panel();
 		panel_1.setBounds(409, 52, 416, 150);
@@ -186,15 +190,17 @@ public class Ticket extends JInternalFrame {
 		label_10.setBounds(139, 105, 105, 22);
 		panel_1.add(label_10);
 		
+		
+		
 		Label label_2 = new Label("Ticket No");
 		label_2.setBounds(254, 23, 62, 22);
 		getContentPane().add(label_2);
 		
-		Label label_3 = new Label("New label");
+		label_3 = new Label("");
 		label_3.setFont(new Font("Dialog", Font.BOLD, 18));
 		label_3.setForeground(new Color(0, 255, 0));
 		label_3.setBackground(new Color(255, 0, 0));
-		label_3.setBounds(322, 10, 146, 36);
+		label_3.setBounds(322, 10, 129, 36);
 		getContentPane().add(label_3);
 		
 		Panel panel_2 = new Panel();
@@ -263,6 +269,116 @@ public class Ticket extends JInternalFrame {
 		Button button_1 = new Button("Cancel");
 		button_1.setBounds(658, 431, 70, 22);
 		getContentPane().add(button_1);
+		
+		Button button_3 = new Button("Search");
+		button_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String id=textField.getText();
+				
+				try {
+					Class.forName("com.mysql.cj.jdbc.Driver");
+					con=DriverManager.getConnection("jdbc:mysql://localhost/airline","root","");
+					
+					pat=con.prepareStatement("select * from customer where id = ?");
+					pat.setString(1, id);
+					ResultSet rs=pat.executeQuery();
+					
+					
+					if(rs.next() == false)
+						JOptionPane.showMessageDialog(button, "record not found");
+					
+					else
+					{
+						String fname=rs.getString("firstname");
+						String lname=rs.getString("lastname");
+						String passport=rs.getString("passport");
+						
+						
+					
+						
+							
+						
+						label_8.setText(fname.trim());
+						label_9.setText(lname.trim());
+						label_10.setText(passport.trim());
+						
+					}
+					
+					
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		button_3.setBounds(297, 21, 70, 22);
+		panel_1.add(button_3);
+		
+		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				DefaultTableModel df =(DefaultTableModel)table.getModel();
+				int s=table.getSelectedRow();
+				label_17.setText(df.getValueAt(	s, 0).toString());
+				label_18.setText(df.getValueAt(	s, 1).toString());
+				label_17.setText(df.getValueAt(	s, 5).toString());
+				
+				
+			
+			}
+		});
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Flight No", "Flight Name", "Arr Time", "Dep Time", "Departure", "Date", "Source", "Change"
+			}
+		));
+		table.setBounds(49, 208, 440, 242);
+		getContentPane().add(table);
+		
+		autoID();
 
+		
+		
+
+	}
+	
+	public void autoID() {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			con=DriverManager.getConnection("jdbc:mysql://localhost/airline","root","");
+			Statement s=con.createStatement();
+			ResultSet rs=s.executeQuery("Select MAX(id) from ticket");
+			rs.next();
+			rs.getString("MAX(id)");
+			
+			if(rs.getString("MAX(id)") == null)
+			{
+				label_3.setText("T001");
+			}
+			
+			else
+			{
+				long id= Long.parseLong(rs.getString("MAX(id)").substring(2,rs.getString("MAX(id)").length()));
+				id++;
+				label_3.setText("T"+String.format("%03d", id));
+				
+				
+				
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
