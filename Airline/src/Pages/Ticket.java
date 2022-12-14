@@ -36,6 +36,8 @@ import java.util.Vector;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class Ticket extends JInternalFrame {
 	private JTable table;
@@ -251,6 +253,7 @@ public class Ticket extends JInternalFrame {
 		panel_2.add(label_19);
 		
 		JComboBox comboBox_2 = new JComboBox();
+		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"Economy", "Business"}));
 		comboBox_2.setBounds(157, 94, 77, 22);
 		panel_2.add(comboBox_2);
 		
@@ -258,9 +261,7 @@ public class Ticket extends JInternalFrame {
 		textField_1.setBounds(157, 122, 77, 22);
 		panel_2.add(textField_1);
 		
-		JSpinner spinner = new JSpinner();
-		spinner.setBounds(157, 150, 53, 20);
-		panel_2.add(spinner);
+		
 		
 		Button button = new Button("Book");
 		button.setBounds(543, 431, 70, 22);
@@ -327,7 +328,8 @@ public class Ticket extends JInternalFrame {
 				int s=table.getSelectedRow();
 				label_17.setText(df.getValueAt(	s, 0).toString());
 				label_18.setText(df.getValueAt(	s, 1).toString());
-				label_17.setText(df.getValueAt(	s, 5).toString());
+				label_19.setText(df.getValueAt(	s, 5).toString());
+				textField_1.setText(df.getValueAt(	s, 7).toString());
 				
 				
 			
@@ -337,11 +339,37 @@ public class Ticket extends JInternalFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"Flight No", "Flight Name", "Arr Time", "Dep Time", "Departure", "Date", "Source", "Change"
+				"Flight No", "Flight Name", "Arr Time", "Dep Time", "Departure", "Date", "Source", "Charge"
 			}
 		));
-		table.setBounds(49, 208, 440, 242);
+		table.setBounds(49, 208, 440, 198);
 		getContentPane().add(table);
+		
+		Label label_20 = new Label("Total Price");
+		label_20.setBounds(158, 420, 62, 22);
+		getContentPane().add(label_20);
+		
+		Label label_21 = new Label("New label");
+		label_21.setForeground(new Color(0, 64, 0));
+		label_21.setFont(new Font("Dialog", Font.BOLD, 15));
+		label_21.setBounds(226, 412, 117, 41);
+		getContentPane().add(label_21);
+		
+		JSpinner spinner = new JSpinner();
+		spinner.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				
+				int price=Integer.parseInt(textField_1.getText());
+				int qty=Integer.parseInt(spinner.getValue().toString());
+				
+				int tot=price*qty;
+				
+				label_21.setText(String.valueOf(tot));
+				
+			}
+		});
+		spinner.setBounds(157, 150, 53, 20);
+		panel_2.add(spinner);
 		
 		autoID();
 
