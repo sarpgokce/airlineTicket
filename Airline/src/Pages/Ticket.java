@@ -29,6 +29,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,6 +39,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import com.toedter.calendar.JDateChooser;
 
 public class Ticket extends JInternalFrame {
 	private JTable table;
@@ -261,9 +263,85 @@ public class Ticket extends JInternalFrame {
 		textField_1.setBounds(157, 122, 77, 22);
 		panel_2.add(textField_1);
 		
+		Label label_21 = new Label("New label");
+		label_21.setForeground(new Color(0, 64, 0));
+		label_21.setFont(new Font("Dialog", Font.BOLD, 15));
+		label_21.setBounds(226, 412, 117, 41);
+		getContentPane().add(label_21);
+		
+		JSpinner spinner = new JSpinner();
+		spinner.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				
+				int price=Integer.parseInt(textField_1.getText());
+				int qty=Integer.parseInt(spinner.getValue().toString());
+				
+				int tot=price*qty;
+				
+				label_21.setText(String.valueOf(tot));
+				
+			}
+		});
+		spinner.setBounds(157, 150, 53, 20);
+		panel_2.add(spinner);
+		
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setBounds(234, 12, 85, 20);
+		panel_2.add(dateChooser);
+		
 		
 		
 		Button button = new Button("Book");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String id=label_3.getText();
+				String flightid=label_17.getText();
+				String custid=textField.getText();
+				String fclass=comboBox_2.getSelectedItem().toString().trim();
+				String price=label_21.getText();
+				String seats=spinner.getValue().toString();
+
+				DateFormat da=new SimpleDateFormat("yyyy-MM-dd");
+				String date=da.format(dateChooser.getDate());
+				
+				
+				
+				
+				
+				try {
+					Class.forName("com.mysql.cj.jdbc.Driver");
+					con=DriverManager.getConnection("jdbc:mysql://localhost/airline","root","");
+					
+					pat=con.prepareStatement("insert into ticket(id,flightid,customerid,class,price,seats,date)values(?,?,?,?,?,?,?)");
+					
+					pat.setString(1, id);
+					pat.setString(2, flightid);
+					pat.setString(3, custid);
+					pat.setString(4, fclass);
+					pat.setString(5, price);
+					pat.setString(6, seats);
+					pat.setString(7, date);
+					
+					
+					
+					pat.executeUpdate();
+					
+					JOptionPane.showMessageDialog(null,"Ticket Booked");
+
+					
+					
+					
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		button.setBounds(543, 431, 70, 22);
 		getContentPane().add(button);
 		
@@ -349,27 +427,9 @@ public class Ticket extends JInternalFrame {
 		label_20.setBounds(158, 420, 62, 22);
 		getContentPane().add(label_20);
 		
-		Label label_21 = new Label("New label");
-		label_21.setForeground(new Color(0, 64, 0));
-		label_21.setFont(new Font("Dialog", Font.BOLD, 15));
-		label_21.setBounds(226, 412, 117, 41);
-		getContentPane().add(label_21);
 		
-		JSpinner spinner = new JSpinner();
-		spinner.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				
-				int price=Integer.parseInt(textField_1.getText());
-				int qty=Integer.parseInt(spinner.getValue().toString());
-				
-				int tot=price*qty;
-				
-				label_21.setText(String.valueOf(tot));
-				
-			}
-		});
-		spinner.setBounds(157, 150, 53, 20);
-		panel_2.add(spinner);
+		
+		
 		
 		autoID();
 

@@ -160,6 +160,7 @@ public class addFlight extends JInternalFrame {
 		Button button = new Button("Add");		
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				String id=label_1.getText();
 				String fname=textField.getText();
 				String source=comboBox.getSelectedItem().toString();
@@ -213,6 +214,17 @@ public class addFlight extends JInternalFrame {
 		panel.add(button);
 		
 		Button button_1 = new Button("Cancel");
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			
+				
+			}
+		});
+		
+			
+			
+		
 		button_1.setBounds(489, 279, 70, 22);
 		panel.add(button_1);
 		

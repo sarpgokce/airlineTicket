@@ -32,9 +32,8 @@ public class Main extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
+	//eksikler: table'daki üst kısım, cancel butonu,gui design
+	
 	public Main() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1032, 702);
@@ -115,14 +114,26 @@ public class Main extends JFrame {
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				Ticket tcus=new Ticket();
+				Ticket rcus=new Ticket();
 				
-				desktopPane.add(tcus);
-				tcus.setVisible(true);
+				desktopPane.add(rcus);
+				rcus.setVisible(true);
 				
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_1);
+		
+		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Ticket Report");
+		mntmNewMenuItem_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				TicketReport tcus=new TicketReport();
+				
+				desktopPane.add(tcus);
+				tcus.setVisible(true);
+			}
+		});
+		mnNewMenu_1.add(mntmNewMenuItem_5);
 		
 	}
 	
