@@ -67,8 +67,7 @@ public class Main extends JFrame {
 		JMenu mnNewMenu_3 = new JMenu("User");
 		menuBar.add(mnNewMenu_3);
 		
-		JMenuItem mntmNewMenuItem_3 = new JMenuItem("User Creation");
-		mnNewMenu_3.add(mntmNewMenuItem_3);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -121,7 +120,7 @@ public class Main extends JFrame {
 				
 			}
 		});
-		mnNewMenu_1.add(mntmNewMenuItem_1);
+		mnNewMenu_1.add(mntmNewMenuItem_1); 
 		
 		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Ticket Report");
 		mntmNewMenuItem_5.addActionListener(new ActionListener() {
@@ -134,6 +133,18 @@ public class Main extends JFrame {
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_5);
+		
+		JMenuItem mntmNewMenuItem_3 = new JMenuItem("User Creation");
+		mntmNewMenuItem_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				userCreation ucus=new userCreation();
+				
+				desktopPane.add(ucus);
+				ucus.setVisible(true);
+			}
+		});
+		mnNewMenu_3.add(mntmNewMenuItem_3);
 		
 	}
 	
