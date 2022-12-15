@@ -12,6 +12,7 @@ import java.util.Vector;
 import javax.swing.JInternalFrame;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JButton;
 
 public class TicketReport extends JInternalFrame {
 	private JTable table;
@@ -53,6 +54,10 @@ public class TicketReport extends JInternalFrame {
 		));
 		table.setBounds(38, 34, 394, 247);
 		getContentPane().add(table);
+		
+		JButton btnNewButton = new JButton("Cancel");
+		btnNewButton.setBounds(222, 374, 89, 23);
+		getContentPane().add(btnNewButton);
 		
 		LoadData();
 
