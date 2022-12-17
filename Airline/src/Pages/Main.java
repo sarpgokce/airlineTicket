@@ -32,8 +32,10 @@ public class Main extends JFrame {
 		});
 	}
 
-	//eksikler: table'daki üst kısım, cancel butonu,gui design
+	/*eksikler: table'daki üst kısım, cancel butonu,gui design,this,messagedialog,main'i mainden logine alma
+	 
 	
+	*/
 	public Main() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1032, 702);
